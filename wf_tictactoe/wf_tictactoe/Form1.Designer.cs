@@ -49,6 +49,7 @@
 			this.x_win_cnt = new System.Windows.Forms.Label();
 			this.o_win_cnt = new System.Windows.Forms.Label();
 			this.draw_cnt = new System.Windows.Forms.Label();
+			this.resetWinCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -67,6 +68,7 @@
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newGameToolStripMenuItem,
+            this.resetWinCountToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -266,6 +268,13 @@
 			this.draw_cnt.TabIndex = 15;
 			this.draw_cnt.Text = "0";
 			// 
+			// resetWinCountToolStripMenuItem
+			// 
+			this.resetWinCountToolStripMenuItem.Name = "resetWinCountToolStripMenuItem";
+			this.resetWinCountToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+			this.resetWinCountToolStripMenuItem.Text = "Reset Win Count";
+			this.resetWinCountToolStripMenuItem.Click += new System.EventHandler(this.resetWinCountToolStripMenuItem_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -323,6 +332,7 @@
 		private System.Windows.Forms.Label x_win_cnt;
 		private System.Windows.Forms.Label o_win_cnt;
 		private System.Windows.Forms.Label draw_cnt;
+		private System.Windows.Forms.ToolStripMenuItem resetWinCountToolStripMenuItem;
 	}
 }
 

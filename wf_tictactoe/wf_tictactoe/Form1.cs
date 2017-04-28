@@ -111,13 +111,14 @@ namespace wf_tictactoe
 			turn = true;
 			turn_cnt = 0;
 
-			try {
-				foreach (Control c in Controls) {
+			
+			foreach (Control c in Controls) {
+				try {
 					Button b = (Button)c;
 					b.Enabled = true;
 					b.Text = "";
-				}
-			} catch { }
+				} catch { }
+			} 
 		}
 
 		private void button_enter(object sender, EventArgs e) {
@@ -138,6 +139,12 @@ namespace wf_tictactoe
 			if (b.Enabled) {
 				b.Text = "";
 			}
+		}
+
+		private void resetWinCountToolStripMenuItem_Click(object sender, EventArgs e) {
+			o_win_cnt.Text = "0";
+			x_win_cnt.Text = "0";
+			draw_cnt.Text = "0";
 		}
 	}
 }
