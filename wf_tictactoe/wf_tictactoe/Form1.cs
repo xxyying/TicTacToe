@@ -76,14 +76,18 @@ namespace wf_tictactoe
 				String winner = "";
 				if (turn) {
 					winner = "O";
+					o_win_cnt.Text = (Int32.Parse(o_win_cnt.Text) + 1).ToString();
 				} else {
 					winner = "X";
+					x_win_cnt.Text = (Int32.Parse(x_win_cnt.Text) + 1).ToString();
+
 				}
 
 				MessageBox.Show(winner + " Wins!", "Yay!");
 			} else {
 				// if there is a draw
 				if (turn_cnt == 9) {
+					draw_cnt.Text = (Int32.Parse(draw_cnt.Text) + 1).ToString();
 					MessageBox.Show("There is a draw!", " Bummer!");
 				}
 			}
@@ -114,6 +118,26 @@ namespace wf_tictactoe
 					b.Text = "";
 				}
 			} catch { }
+		}
+
+		private void button_enter(object sender, EventArgs e) {
+			Button b = (Button)sender;
+
+			if (turn) {
+				b.Text = "X";
+			} else {
+				b.Text = "O";
+			}
+
+		}
+
+		private void button_leave(object sender, EventArgs e) {
+
+			Button b = (Button)sender;
+
+			if (b.Enabled) {
+				b.Text = "";
+			}
 		}
 	}
 }
