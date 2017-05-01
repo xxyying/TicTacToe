@@ -14,10 +14,16 @@ namespace wf_tictactoe
     {
 		bool turn = true; // true = X turn; false = Y turn
 		int turn_cnt = 0;
+		static String player1, player2;
 		
         public Form1() {
             InitializeComponent();
         }
+
+		public static void setPlayerNames(String n1, String n2) {
+			player1 = n1;
+			player2 = n2;
+		}
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
             MessageBox.Show("By Yiying", "Tic Tac Toe About");
@@ -75,10 +81,10 @@ namespace wf_tictactoe
 
 				String winner = "";
 				if (turn) {
-					winner = "O";
+					winner = player2;
 					o_win_cnt.Text = (Int32.Parse(o_win_cnt.Text) + 1).ToString();
 				} else {
-					winner = "X";
+					winner = player1;
 					x_win_cnt.Text = (Int32.Parse(x_win_cnt.Text) + 1).ToString();
 
 				}
@@ -145,6 +151,13 @@ namespace wf_tictactoe
 			o_win_cnt.Text = "0";
 			x_win_cnt.Text = "0";
 			draw_cnt.Text = "0";
+		}
+
+		private void Form1_Load(object sender, EventArgs e) {
+			Form2 f2 = new Form2();
+			f2.ShowDialog();
+			label1.Text = player1;
+			label3.Text = player2;
 		}
 	}
 }
