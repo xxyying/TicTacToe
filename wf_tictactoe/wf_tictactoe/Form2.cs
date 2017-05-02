@@ -15,7 +15,7 @@ namespace wf_tictactoe {
 		}
 
 		private void playBtn_Click(object sender, EventArgs e) {
-			Form1.setPlayerNames(p1.Text, p2.Text);
+			//Form1.setPlayerNames(p1.Text, p2.Text);
 			this.Close();
 		}
 

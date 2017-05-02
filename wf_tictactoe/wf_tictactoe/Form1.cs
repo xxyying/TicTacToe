@@ -14,16 +14,17 @@ namespace wf_tictactoe
     {
 		bool turn = true; // true = X turn; false = Y turn
 		int turn_cnt = 0;
-		static String player1, player2;
+		bool against_com = false;
+		//static String player1, player2;
 		
         public Form1() {
             InitializeComponent();
         }
 
-		public static void setPlayerNames(String n1, String n2) {
-			player1 = n1;
-			player2 = n2;
-		}
+		//public static void setPlayerNames(String n1, String n2) {
+		//	//player1 = n1;
+		//	//player2 = n2;
+		//}
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
             MessageBox.Show("By Yiying", "Tic Tac Toe About");
@@ -34,18 +35,187 @@ namespace wf_tictactoe
         }
 
 		private void button_Click(object sender, EventArgs e) {
-			Button b = (Button)sender;
 
-			if (turn) {
-				b.Text = "X";
+			if ((p1.Text == "Player 1") || (p2.Text == "Player 2")) {
+				MessageBox.Show("Please specify the players' name before you start!\nType Computer (for Player 2)");
 			} else {
-				b.Text = "O";
+				Button b = (Button)sender;
+
+				if (turn) {
+					b.Text = "X";
+				} else {
+					b.Text = "O";
+				}
+
+				turn = !turn;
+				b.Enabled = false;
+				turn_cnt++;
+				checkForWinner();
 			}
 
-			turn = !turn;
-			b.Enabled = false;
-			turn_cnt++;
-			checkForWinner();
+			if((!turn) && (against_com)) {
+				computer_make_move();
+			}
+		}
+
+		private void computer_make_move() {
+			// 1. get tic tac toe
+			// 2. block x tic tac toe
+			// 3. go for corner space
+			// 4. pick open space
+
+			Button move = null;
+
+			// Look for tic tac toe opportunity
+
+			move = look_for_win_or_block("O");
+			if (move == null) {
+				move = look_for_win_or_block("X");
+				if (move == null) {
+					move = look_for_corner();
+					if (move == null) {
+						move = look_for_openSpace();
+					}
+				}
+			}
+			move.PerformClick();
+		}
+
+		private Button look_for_win_or_block(String mark) {
+			Console.WriteLine("Look for win or block: " + mark);
+			
+			// Horizontal test
+			// Line 1
+			if ((A1.Text == mark) && (A2.Text == mark) && (A3.Text == "")) {
+				return A3;
+			}
+			if ((A2.Text == mark) && (A3.Text == mark) && (A1.Text == "")) {
+				return A1;
+			}
+			if ((A1.Text == mark) && (A3.Text == mark) && (A2.Text == "")) {
+				return A2;
+			}
+
+			// Line 2
+			if ((B1.Text == mark) && (B2.Text == mark) && (B3.Text == "")) {
+				return B3;
+			}
+			if ((B2.Text == mark) && (B3.Text == mark) && (B1.Text == "")) {
+				return B1;
+			}
+			if ((B1.Text == mark) && (B3.Text == mark) && (B2.Text == "")) {
+				return B2;
+			}
+			// Line 3
+			if ((C1.Text == mark) && (C2.Text == mark) && (C3.Text == "")) {
+				return C3;
+			}
+			if ((C2.Text == mark) && (C3.Text == mark) && (C1.Text == "")) {
+				return C1;
+			}
+			if ((C1.Text == mark) && (C3.Text == mark) && (C2.Text == "")) {
+				return C2;
+			}
+
+			// Vertical test
+			// Row 1
+			if ((A1.Text == mark) && (B1.Text == mark) && (C1.Text == "")) {
+				return C1;
+			}
+			if ((A1.Text == mark) && (C1.Text == mark) && (B1.Text == "")) {
+				return B1;
+			}
+			if ((C1.Text == mark) && (B1.Text == mark) && (A1.Text == "")) {
+				return A1;
+			}
+			//Row 2
+			if ((A2.Text == mark) && (B2.Text == mark) && (C2.Text == "")) {
+				return C2;
+			}
+			if ((A2.Text == mark) && (C2.Text == mark) && (B2.Text == "")) {
+				return B2;
+			}
+			if ((C2.Text == mark) && (B2.Text == mark) && (A2.Text == "")) {
+				return A2;
+			}
+			// Row 3
+			if ((A3.Text == mark) && (B3.Text == mark) && (C3.Text == "")) {
+				return C3;
+			}
+			if ((A3.Text == mark) && (C3.Text == mark) && (B3.Text == "")) {
+				return B3;
+			}
+			if ((C3.Text == mark) && (B3.Text == mark) && (A3.Text == "")) {
+				return A3;
+			}
+
+			// Diagonal test
+			// top left --- bottom right
+			if ((A1.Text == mark) && (B2.Text == mark) && (C3.Text == "")) {
+				return C3;
+			}
+			if ((B2.Text == mark) && (C3.Text == mark) && (A1.Text == "")) {
+				return A1;
+			}
+			if ((A1.Text == mark) && (C3.Text == mark) && (B2.Text == "")) {
+				return B2;
+			}
+			// bottom left --- top right
+			if ((A3.Text == mark) && (B2.Text == mark) && (C1.Text == "")) {
+				return C1;
+			}
+			if ((B2.Text == mark) && (C1.Text == mark) && (A3.Text == "")) {
+				return A3;
+			}
+			if ((A3.Text == mark) && (C1.Text == mark) && (B2.Text == "")) {
+				return B2;
+			}
+			return null;
+		}
+
+		private Button look_for_corner() {
+			Console.WriteLine("Look for corner");
+			if (A1.Text == "O") {
+				if (A3.Text == "") return A3;
+				if (C3.Text == "") return C3;
+				if (C1.Text == "") return C1;
+			}
+			if (A3.Text == "O") {
+				if (A1.Text == "") return A1;
+				if (C3.Text == "") return C3;
+				if (C1.Text == "") return C1;
+			}
+			if (C3.Text == "O") {
+				if (A1.Text == "") return A1;
+				if (A3.Text == "") return A3;
+				if (C1.Text == "") return C1;
+			}
+			if (C1.Text == "O") {
+				if (A1.Text == "") return A1;
+				if (A3.Text == "") return A3;
+				if (C3.Text == "") return C3;
+			}
+
+			if (A1.Text == "") return A1;
+			if (A3.Text == "") return A3;
+			if (C1.Text == "") return C1;
+			if (C3.Text == "") return C3;
+
+			return null;
+		}
+
+		private Button look_for_openSpace() {
+			Console.WriteLine("Look for open space");
+			Button b = null;
+			foreach (Control c in Controls) {
+				b = c as Button;
+				if (b != null) {
+					if (b.Text == "") {
+						return b;
+					}
+				}
+			}
+			return null;
 		}
 
 		private void checkForWinner() {
@@ -81,24 +251,22 @@ namespace wf_tictactoe
 
 				String winner = "";
 				if (turn) {
-					winner = player2;
+					winner = p2.Text;
 					o_win_cnt.Text = (Int32.Parse(o_win_cnt.Text) + 1).ToString();
 				} else {
-					winner = player1;
+					winner = p1.Text;
 					x_win_cnt.Text = (Int32.Parse(x_win_cnt.Text) + 1).ToString();
-
 				}
-
 				MessageBox.Show(winner + " Wins!", "Yay!");
+				newGameToolStripMenuItem.PerformClick();
 			} else {
 				// if there is a draw
 				if (turn_cnt == 9) {
 					draw_cnt.Text = (Int32.Parse(draw_cnt.Text) + 1).ToString();
 					MessageBox.Show("There is a draw!", " Bummer!");
+					newGameToolStripMenuItem.PerformClick();
 				}
 			}
-
-
 		} // end checkForWinner
 
 		private void disableButtons() {
@@ -153,11 +321,25 @@ namespace wf_tictactoe
 			draw_cnt.Text = "0";
 		}
 
-		private void Form1_Load(object sender, EventArgs e) {
-			Form2 f2 = new Form2();
-			f2.ShowDialog();
-			label1.Text = player1;
-			label3.Text = player2;
+		//private void Form1_Load(object sender, EventArgs e) {
+		//	Form2 f2 = new Form2();
+		//	f2.ShowDialog();
+		//	//label1.Text = player1;
+		//	//label3.Text = player2;
+		//}
+
+
+		private void p2_TextChanged(object sender, EventArgs e) {
+			if (p2.Text.ToUpper() == "COMPUTER") {
+				against_com = true;
+			} else {
+				against_com = false;
+			}
+		}
+
+		private void setPlayerDefaultsToolStripMenuItem_Click(object sender, EventArgs e) {
+			p1.Text = "Amy";
+			p2.Text = "Computer";
 		}
 	}
 }
